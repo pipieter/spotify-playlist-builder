@@ -54,7 +54,7 @@ export function GenericList<T>(props: {
         style={{ gridTemplateColumns: gridColumnStyle }}
       >
         {filteredItems.map((entry) => (
-          <div
+          <div className={"h-fit"}
             onClick={() => {
               if (onClick) {
                 if (entry === selectedEntry) {

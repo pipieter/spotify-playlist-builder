@@ -351,6 +351,11 @@ justify-content: space-evenly;
     padding: 0;
 }
 
+.padding-8-horizontal {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .disabled {
     opacity: 40%;
 }

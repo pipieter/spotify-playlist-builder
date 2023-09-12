@@ -42,7 +42,6 @@
 .list-item-holder {
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 100%;
     justify-content: center;
     width: 100% !important;
     margin: 0;
