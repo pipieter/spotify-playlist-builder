@@ -1,0 +1,30 @@
+.dashboard-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-title * {
+    margin: 8px
+}
+
+.dashboard-title img {
+    width: 48px;
+    height: 48px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: auto repeat(1, 1fr);
+}
+
+.dashboard-grid div {
+    padding: 8px;
+}
+
+.github-link {
+    position: absolute;
+    left: 50%;
+    bottom: 20px
+}

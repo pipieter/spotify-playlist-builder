@@ -1,0 +1,26 @@
+.from-song-data-create-playlist-div {
+    height: 120px;
+}
+
+
+.from-song-data-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.from-song-info-table-div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 450px; /* TODO remove hardcoding */
+}
+
+.from-song-option-description {
+    margin: 16px;
+    display: block;
+    height: calc(max(250px, 100%));
+    text-align: justify;
+}

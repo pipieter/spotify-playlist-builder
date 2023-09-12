@@ -1,0 +1,16 @@
+.tab-div-name {
+    width: 120px;
+    cursor: pointer;
+    text-decoration: none;
+    text-decoration-thickness: 16px;
+    color: var(--dark-tertiary);
+}
+
+.tab-div-name:hover {
+    color: var(--text-medium)
+}
+
+.tab-div-name.enabled {
+    text-decoration: underline;
+
+}

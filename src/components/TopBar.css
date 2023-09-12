@@ -1,0 +1,101 @@
+.topbar-div {
+    background: var(--text-dark);
+    height: var(--topbar-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.topbar-icon {
+    z-index: 1;
+    text-decoration: none;
+}
+
+.topbar-icon summary {
+    list-style: none none;
+}
+
+.topbar-icon img {
+    position: relative;
+    cursor: pointer;
+    border-radius: 999px;
+    border: solid 1px black;
+    width: 48px;
+    height: 48px;
+    background: var(--light-tertiary);
+}
+
+.topbar-login {
+    background: var(--light-primary);
+    text-decoration: none;
+    width: 64px;
+    text-align: center;
+    align-items: center;
+    border-radius: 8px;
+    color: var(--dark-primary);
+}
+
+.topbar-login:hover {
+    background: var(--light-secondary);
+}
+
+.topbar-icon-list {
+    z-index: 1;
+    position: absolute;
+    margin-top: 4px;
+    margin-left: -82px;
+    background: var(--background-light);
+    filter: drop-shadow(0 0 1px);
+    list-style: none;
+    padding: 16px;
+    width: 100px;
+    color: var(--text-medium);
+    border-radius: 4px;
+}
+
+.topbar-icon-list li a {
+    text-decoration: none;
+    color: var(--text-medium);
+}
+
+.topbar-icon-logout {
+    cursor: pointer;
+}
+
+/* Close the dropdown with outside clicks */
+.topbar-icon > summary::before {
+    display: none;
+}
+
+.topbar-icon[open] > summary::before {
+    content: ' ';
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.topbar-dashboard-div, .topbar-icon-div {
+    display: flex;
+    width: 150px;
+}
+
+.topbar-dashboard-div {
+    justify-content: flex-start;
+}
+
+.topbar-icon-div {
+    justify-content: flex-end;
+}
+
+.topbar-div > * {
+    margin: 0 16px 0 16px;
+}
+
+.topbar-links-div > *{
+    margin: 0 16px 0 16px;
+}

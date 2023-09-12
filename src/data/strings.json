@@ -1,0 +1,58 @@
+{
+  "Dashboard": {
+    "title": "Spotify Playlist Builder",
+    "description": "This site contains several methods to build recommendation playlists based on a user's playlists and preferences. Created playlists are public by default. This tool does not modify any existing playlists, it only reads playlists and creates new ones.",
+    "links": {
+      "title": "Pages",
+      "fromPlaylist": {
+        "name": "From Playlist",
+        "description": "Create a playlist based on a user's previously created playlist."
+      },
+      "fromSong": {
+        "name": "From Song",
+        "description": "Create a playlist based on a user's previously created playlist with a focus on one specific song."
+      },
+      "fromGenre": {
+        "name": "From Genre",
+        "description": "Create a playlist based on a genre with the option to choose a playlist to base the recommendations on."
+      }
+    },
+    "credits": {
+      "title": "Credits",
+      "spotify": {
+        "name": "Spotify API",
+        "url": "https://developer.spotify.com/",
+        "description": "Thanks to Spotify for opening their API for users all around the world to use."
+      },
+      "everynoise": {
+        "name": "Every Noise at Once",
+        "url": "https://everynoise.com/",
+        "description": "The genres in From Genres were taken from Every Noise at Once, because of the Spotify API's limited ability to display all genres."
+      }
+    }
+  },
+  "FromPlaylist": {
+    "howToUse": {
+      "title": "Create a playlist from a playlist",
+      "description": "Select a playlist you which to create recommendations from. For each song in the playlist, it will generate recommendations. From all these recommendations, the top hundred most similar tracks to the songs in the playlist are chosen."
+    }
+  },
+  "FromSong": {
+    "howToUse": {
+      "title": "Create a playlist from a song",
+      "description1": "Select a playlist and then select a song you wish to create a playlist for. Use the options in the normal and advanced tab to specify which parameters you wish to use, and change them if you desire.",
+      "description2": "This tool will create a recommendation list for every song in this playlist based on the selected options. It will then compare every found recommendation to the selected song, and choose the most top hundred most similar ones."
+    },
+    "warningNoneSelected": {
+      "title": "Warning",
+      "description": "No parameters enabled. Results will be less focused."
+    }
+  },
+  "FromGenre": {
+    "howToUse": {
+      "title": "Create a playlist from a genre",
+      "description1": "Select a genre in the first column for which you want to create a playlist for. The count in the genre is how many songs in all your playlists already have that genre. Additionally, you can set a playlist and the resulting tracks will be as similar to the playlist as possible. Using ",
+      "description2": "WARNING: The Spotify API is not very good for searching by genre, as most of the tracks are incompletely tagged. It's recommended to use other sources for properly searching by genre, such as <0>Every Noise at Once</0>"
+    }
+  }
+}
