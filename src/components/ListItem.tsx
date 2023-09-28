@@ -10,8 +10,8 @@ export function TrackListItem(props: {
   return (
     <ListItem
       title={track.name}
-      user={artists}
-      image={track.album.images[0].url || "logo256.png"}
+      subtitle={artists}
+      image={track.album.images[0]?.url || "logo256.png"}
       selected={selected}
     />
   );
@@ -25,8 +25,8 @@ export function ArtistListItem(props: {
   return (
     <ListItem
       title={artist.name}
-      user={""}
-      image={artist.images[0].url || "logo256.png"}
+      subtitle={""}
+      image={artist.images[0]?.url || "logo256.png"}
       selected={selected}
     />
   );
@@ -40,8 +40,8 @@ export function PlaylistListItem(props: {
   return (
     <ListItem
       title={playlist.name}
-      user={playlist.owner?.display_name || ""}
-      image={playlist.images[0].url || "logo256.png"}
+      subtitle={playlist.owner?.display_name || ""}
+      image={playlist.images[0]?.url || "logo256.png"}
       selected={selected}
     />
   );
@@ -49,11 +49,11 @@ export function PlaylistListItem(props: {
 
 export function ListItem(props: {
   title: string;
-  user: string;
+  subtitle: string;
   image: string;
   selected: boolean;
 }) {
-  const { title, user, image, selected } = props;
+  const { title, subtitle, image, selected } = props;
 
   return (
     <div className={`list-item ${selected && "selected"}`}>
@@ -64,7 +64,7 @@ export function ListItem(props: {
       </div>
       <div className="no-pad list-item-data">
         <p className="no-pad list-item-name">{title}</p>
-        <p className="no-pad list-item-user">{user}</p>
+        <p className="no-pad list-item-user">{subtitle}</p>
       </div>
     </div>
   );

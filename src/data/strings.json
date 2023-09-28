@@ -15,6 +15,10 @@
       "fromGenre": {
         "name": "From Genre",
         "description": "Create a playlist based on a genre with the option to choose a playlist to base the recommendations on."
+      },
+      "statistics": {
+        "name": "Statistics",
+        "description": "View the genre distribution and music statistics of a playlist."
       }
     },
     "credits": {
@@ -51,8 +55,8 @@
   "FromGenre": {
     "howToUse": {
       "title": "Create a playlist from a genre",
-      "description1": "Select a genre in the first column for which you want to create a playlist for. The count in the genre is how many songs in all your playlists already have that genre. Additionally, you can set a playlist and the resulting tracks will be as similar to the playlist as possible. Using ",
-      "description2": "WARNING: The Spotify API is not very good for searching by genre, as most of the tracks are incompletely tagged. It's recommended to use other sources for properly searching by genre, such as <0>Every Noise at Once</0>"
+      "description1": "Select a genre in the first column for which you want to create a playlist for. The count in the genre is how many songs in all your playlists already have that genre. Additionally, you can set a playlist and the resulting tracks will be as similar to the playlist as possible.",
+      "description2": "WARNING: The Spotify API is not very good for searching by genre, as most of the tracks are incompletely tagged. It's recommended to use other sources for properly searching by genre, such as <0>Every Noise at Once</0>. If a created playlist has no songs, it's highly likely the Spotify API could not find any songs matching the genre (even though an artist with the genre would exist)."
     }
   }
 }

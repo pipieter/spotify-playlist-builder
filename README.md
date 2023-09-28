@@ -26,7 +26,7 @@ npm install
 npm start
 ```
 
-which will run the app locally on URL [http://localhost:3000/spotify](http://localhost:3000/spotify).
+which will run the app locally on URL [http://localhost:3000/](http://localhost:3000/).
 
 ### Building the application:
 

@@ -108,7 +108,7 @@ export function FromGenre() {
           itemFunction={(genre) => (
             <ListItem
               title={capitalize(genre)}
-              user={""}
+              subtitle={""}
               image={""}
               selected={selectedGenre === genre}
             />

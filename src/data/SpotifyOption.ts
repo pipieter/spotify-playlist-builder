@@ -1,12 +1,14 @@
 export type SpotifyOptionType =
+  // Standard options
   | "acousticness"
   | "danceability"
   | "energy"
   | "instrumentalness"
   | "liveness"
   | "speechiness"
-  | "tempo"
   | "valence"
+  // Advanced options
+  | "tempo"
   | "key"
   | "mode"
   | "time_signature";

@@ -1,6 +1,12 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import Config from "./Config";
-import { notEmpty, sleep } from "./util/util";
+import { sleep } from "./util/util";
+
+export interface TrackDetails {
+  track: SpotifyApi.TrackObjectFull;
+  features: SpotifyApi.AudioFeaturesObject;
+  artists: SpotifyApi.ArtistObjectFull[];
+}
 
 class Api {
   instance: AxiosInstance;
@@ -62,8 +68,16 @@ class Api {
   }
 
   SpotifyLoginUrl(): string {
-    const scope =
-      "playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-top-read";
+    const scopes = [
+      "playlist-read-private",
+      "playlist-read-collaborative",
+      "playlist-modify-public",
+      "playlist-modify-private",
+      "user-top-read",
+      "user-library-read",
+      "user-read-playback-position",
+    ];
+    const scope = scopes.join(" ");
     const query = `client_id=${Config.GetSpotifyClientId()}&redirect_uri=${Config.GetRedirectUrl()}&response_type=code&scope=${scope}`;
     return `${Config.GetSpotifyAuthUrl()}?${query}`;
   }
@@ -221,6 +235,9 @@ class Api {
     playlistId: string,
     trackUris: string[]
   ): Promise<SpotifyApi.PlaylistTrackResponse | undefined> {
+    if (trackUris.length === 0) {
+      return undefined;
+    }
     return this.Post<SpotifyApi.PlaylistTrackResponse>(
       `/playlists/${playlistId}/tracks`,
       {
@@ -268,14 +285,48 @@ class Api {
     );
   }
 
-  async GetPlaylistGenres(playlistId: string): Promise<string[]> {
-    const tracks = await this.GetPlaylistTracks(playlistId);
+  async GetPlaylistDetailedStatistics(
+    playlistId: string
+  ): Promise<TrackDetails[]> {
+    const tracks = this.ExtractTracksFromPlaylist(
+      await this.GetPlaylistTracks(playlistId)
+    );
+    const trackIds = tracks.map((track) => track.id);
+    const analyses = await this.GetMultipleTracksAnalyses(trackIds);
     const artistIds = tracks
-      .flatMap((track) => track.track?.artists)
-      .filter(notEmpty)
+      .flatMap((track) => track.artists)
       .map((artist) => artist.id);
-    const artists = await this.GetArtists(artistIds);
-    return artists.flatMap((artist) => artist.genres);
+    const artists = await this.GetArtists(Array.from(new Set(artistIds)));
+
+    const analysesObject: { [key: string]: SpotifyApi.AudioFeaturesObject } =
+      {};
+    const artistsObject: { [key: string]: SpotifyApi.ArtistObjectFull } = {};
+    analyses.forEach((analysis) => (analysesObject[analysis.id] = analysis));
+    artists.forEach((artist) => (artistsObject[artist.id] = artist));
+
+    const trackDetails: TrackDetails[] = [];
+    for (const track of tracks) {
+      const trackAnalysis = analysesObject[track.id];
+      const trackArtists = track.artists.map(
+        (artist) => artistsObject[artist.id]
+      );
+      trackDetails.push({
+        artists: trackArtists,
+        features: trackAnalysis,
+        track: track,
+      });
+    }
+    return trackDetails;
+  }
+
+  async GetUserEpisodes(): Promise<SpotifyApi.EpisodeObject[]> {
+    const url = "/me/episodes";
+    return this.GetPaginated<SpotifyApi.EpisodeObject>(url);
+  }
+
+  async GetUserShows(): Promise<SpotifyApi.ShowObject[]> {
+    const url = "/me/shows";
+    return this.GetPaginated<SpotifyApi.ShowObject>(url);
   }
 
   SetRefreshToken(refreshToken: string): void {

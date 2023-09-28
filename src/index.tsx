@@ -13,6 +13,7 @@ import SpotifyLogin from "./pages/SpotifyLogin";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import strings from "./data/strings.json";
+import { Statistics } from "./pages/Statistics";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -36,6 +37,7 @@ root.render(
         <Route path={routes.fromPlaylist} element={<FromPlaylist />} />
         <Route path={routes.fromSong} element={<FromSong />} />
         <Route path={routes.fromGenre} element={<FromGenre />} />
+        <Route path={routes.statistics} element={<Statistics />} />
         <Route path={routes.login} element={<SpotifyLogin />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

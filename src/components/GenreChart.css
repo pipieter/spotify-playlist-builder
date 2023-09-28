@@ -1,0 +1,36 @@
+.chart-name p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    margin: 0;
+}
+
+.chart-bar {
+    height: 24px;
+    display: block;
+    background: var(--text-light);
+    border-radius: 2px;
+}
+
+.chart-bar:hover {
+    background: var(--text-medium);
+}
+
+.chart-bar.included {
+    background: var(--primary-green);
+}
+
+.chart-bar.included:hover{
+    background: var(--primary-green-darker);
+}
+
+.chart-bar.excluded {
+    background: var(--primary-red);
+}
+
+.chart-bar.excluded:hover {
+    background: var(--primary-red-darker);
+}

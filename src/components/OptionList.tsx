@@ -58,6 +58,7 @@ function SpotifyOptionElement(props: {
       className={`flex-left-center ${option.enabled ? "" : "disabled"}`}
       onMouseEnter={() => onHover(option)}
       onMouseLeave={() => onHover(undefined)}
+      key={option.name}
     >
       <td>
         <input

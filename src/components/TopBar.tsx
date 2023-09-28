@@ -87,6 +87,7 @@ export default function TopBar() {
         <TopBarLink title={"From Playlist"} path={routes.fromPlaylist} />
         <TopBarLink title={"From Song"} path={routes.fromSong} />
         <TopBarLink title={"From Genre"} path={routes.fromGenre} />
+        <TopBarLink title={"Statistics"} path={routes.statistics} />
       </div>
       <div className={"topbar-icon-div"}>{<TopBarIcon />}</div>
     </div>

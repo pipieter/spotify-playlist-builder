@@ -39,7 +39,7 @@ const SpotifyLogin = () => {
     Api.GetAccessToken() &&
     Api.GetRefreshToken()
   ) {
-    return <Navigate to={routes.dashboard} />;
+    return <Navigate to={"/"} />;
   }
 
   return <></>;
