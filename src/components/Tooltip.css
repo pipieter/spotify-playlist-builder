@@ -4,24 +4,27 @@
 }
 
 /* Tooltip text */
-.tooltip .tooltiptext {
+.tooltip .tooltip-text {
     visibility: hidden;
+    overflow: hidden;
     padding: 8px;
     background-color: var(--dark-primary);
     color: var(--background-light);
     text-align: left;
     border-radius: 6px;
 
-    width: 320px;
+    width: 240px;
 
     position: absolute;
     z-index: 1;
 }
 
-.tooltiptext p {
+.tooltip-text p {
+    overflow: hidden;
+    z-index: 4;
     margin: 4px;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltip-text {
     visibility: visible;
 }

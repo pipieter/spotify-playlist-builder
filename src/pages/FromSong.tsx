@@ -7,71 +7,8 @@ import { TabDiv } from "../components/TabDiv";
 import { spotifyDefaultOptions, SpotifyOption } from "../data/SpotifyOption";
 import { PlaylistList } from "../components/PlaylistList";
 import { SpotifyPlaylistTrackList } from "../components/TrackList";
-import { compareAudioFeatures } from "../util/math";
 import { useTranslation } from "react-i18next";
-
-async function createRecommendationPlaylist(
-  selectedTrack: SpotifyApi.TrackObjectFull,
-  tracks: SpotifyApi.TrackObjectFull[],
-  options: SpotifyOption[]
-) {
-  const trackSeeds = new Set(tracks.map((track) => track.id));
-  const recommendationOptions = options
-    .filter((option) => option.enabled)
-    .map((option) => ({
-      name: option.target_name,
-      value: option.value,
-    }));
-
-  const recommendationPromises = Array.from(trackSeeds).map((seed) =>
-    Api.GetRecommendations(
-      new Set(),
-      new Set([seed]),
-      new Set(),
-      recommendationOptions,
-      100
-    )
-  );
-  const recommendations = (await Promise.all(recommendationPromises)).flat();
-  const recommendationsIds = new Set(recommendations.map((rec) => rec.id));
-
-  // Remove from recommendations the tracks that are already in the playlist
-  for (const track of tracks) {
-    recommendationsIds.delete(track.id);
-  }
-  recommendationsIds.delete(selectedTrack.id);
-
-  const selectedTrackFeatures = await Api.GetTrackAnalysis(selectedTrack.id);
-  if (selectedTrackFeatures === undefined) {
-    return;
-  }
-
-  const recommendationFeatures = await Api.GetMultipleTracksAnalyses(
-    Array.from(recommendationsIds)
-  );
-
-  const featureScores: { id: string; uri: string; score: number }[] = [];
-  for (const recommendationFeature of recommendationFeatures) {
-    if (recommendationFeature) {
-      featureScores.push({
-        id: recommendationFeature.id,
-        uri: recommendationFeature.uri,
-        score: compareAudioFeatures(
-          selectedTrackFeatures,
-          recommendationFeature
-        ),
-      });
-    }
-  }
-
-  featureScores.sort((f1, f2) => f1.score - f2.score);
-
-  await Api.CreatePlaylistFromTracks(
-    `Songs similar to ${selectedTrack.name}`,
-    false,
-    featureScores.slice(0, 100).map((features) => features.uri)
-  );
-}
+import { CreatePlaylistFromTrack } from "../CreatePlaylist";
 
 export function FromSong() {
   const { t } = useTranslation();
@@ -118,19 +55,11 @@ export function FromSong() {
 
   useEffect(() => {
     if (selectedTrackStats) {
-      resetOptions();
+      setOptions(spotifyDefaultOptions(selectedTrackStats));
     } else {
       setOptions([]);
     }
   }, [selectedTrackStats]);
-
-  function resetOptions() {
-    if (selectedTrackStats) {
-      const options: SpotifyOption[] =
-        spotifyDefaultOptions(selectedTrackStats);
-      setOptions(options);
-    }
-  }
 
   function toggleOptions(optionsToChange: SpotifyOption[], enabled: boolean) {
     const copy: SpotifyOption[] = [];
@@ -159,11 +88,12 @@ export function FromSong() {
     if (!selectedTrack) return;
 
     setCalculationStatus(true);
-    await createRecommendationPlaylist(selectedTrack, playlistTracks, options);
+    await CreatePlaylistFromTrack(selectedTrack, playlistTracks, options);
     setCalculationStatus(false);
   }
 
   function resetSelectedOptions(optionsToReset: SpotifyOption[]) {
+    // TODO use structuredClone to full reset
     if (selectedTrackStats === undefined) return;
 
     const optionsCopy = Array.from(options);
@@ -192,6 +122,7 @@ export function FromSong() {
   ).length;
   const enabledCount = advancedCount + nonAdvancedCount;
 
+  // TODO create infobox component
   let infoTitle = "";
   let infoDescription: string[] = [];
   // If no track selected, show how to use.
@@ -215,6 +146,7 @@ export function FromSong() {
 
   return (
     <div className="page">
+      {/* Playlist selection */}
       <div className="page-block w-33">
         <PlaylistList
           onClick={setSelectedPlaylist}
@@ -223,6 +155,7 @@ export function FromSong() {
         />
       </div>
 
+      {/* Song selection */}
       <div className="page-block w-33">
         <SpotifyPlaylistTrackList
           playlist={selectedPlaylist}
@@ -239,6 +172,7 @@ export function FromSong() {
         />
       </div>
 
+      {/* Options */}
       <div className="page-block w-33 from-song-data-div">
         {selectedTrack && (
           <div>

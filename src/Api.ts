@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import Config from "./Config";
 import { sleep } from "./util/util";
 
@@ -7,6 +7,8 @@ export interface TrackDetails {
   features: SpotifyApi.AudioFeaturesObject;
   artists: SpotifyApi.ArtistObjectFull[];
 }
+
+// TODO more error handling and format asserts
 
 class Api {
   instance: AxiosInstance;
@@ -83,11 +85,20 @@ class Api {
   }
 
   protected async Get<T>(path: string): Promise<T | undefined> {
-    const response = await this.instance.get(path);
-    if (response === undefined) {
+    try {
+      const response = await this.instance.get(path);
+      if (response === undefined) {
+        return undefined;
+      }
+      return response.data as T;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(`Axios ${error.status} error: ${error.cause}`);
+      } else {
+        console.log(error);
+      }
       return undefined;
     }
-    return response.data as T;
   }
 
   protected async GetPaginated<T>(path: string): Promise<T[]> {
@@ -97,7 +108,7 @@ class Api {
       const response = (await this.instance.get(next)) as
         | AxiosResponse<SpotifyApi.PagingObject<T>>
         | undefined;
-      if (response === undefined) {
+      if (response === undefined || response.data === undefined) {
         return [];
       }
       results.push(...response.data.items);
@@ -159,6 +170,13 @@ class Api {
     );
   }
 
+  async GetPlaylistTrackIds(playlistId: string): Promise<string[]> {
+    const tracks = await this.GetPlaylistTracks(playlistId).then(
+      this.ExtractTracksFromPlaylist
+    );
+    return tracks.map((track) => track.id);
+  }
+
   ExtractTracksFromPlaylist(
     playlistTracks: SpotifyApi.PlaylistTrackObject[]
   ): SpotifyApi.TrackObjectFull[] {
@@ -191,20 +209,23 @@ class Api {
   }
 
   async GetRecommendations(
-    artists: Set<string>,
-    tracks: Set<string>,
-    genres: Set<string>,
+    artists: string[],
+    tracks: string[],
+    genres: string[],
     options: { name: string; value: string | number }[] = [],
     count = 100
   ): Promise<SpotifyApi.RecommendationTrackObject[]> {
+    console.assert(artists.length + tracks.length + genres.length <= 5);
+
     // Get recommendations
-    const artistSeeds = Array.from(artists).join(",");
-    const trackSeeds = Array.from(tracks).join(",");
-    const genreSeeds = Array.from(genres).join(",");
+    const artistSeeds = artists.join(",");
+    const trackSeeds = tracks.join(",");
+    const genreSeeds = genres.join(",");
     const optionsString = options
       .map((option) => `${option.name}=${option.value}`)
       .join("&");
     const url = `/recommendations?limit=${count}&seed_artists=${artistSeeds}&seed_genres=${genreSeeds}&seed_tracks=${trackSeeds}&${optionsString}`;
+
     const response =
       await this.Get<SpotifyApi.RecommendationsFromSeedsResponse>(url);
     if (response === undefined) {
@@ -259,7 +280,7 @@ class Api {
     return playlist;
   }
 
-  async GetMultipleTracksAnalyses(
+  async GetMultipleAudioFeatures(
     trackIds: string[]
   ): Promise<SpotifyApi.AudioFeaturesObject[]> {
     const features: SpotifyApi.AudioFeaturesObject[] = [];
@@ -292,7 +313,7 @@ class Api {
       await this.GetPlaylistTracks(playlistId)
     );
     const trackIds = tracks.map((track) => track.id);
-    const analyses = await this.GetMultipleTracksAnalyses(trackIds);
+    const analyses = await this.GetMultipleAudioFeatures(trackIds);
     const artistIds = tracks
       .flatMap((track) => track.artists)
       .map((artist) => artist.id);
@@ -319,14 +340,18 @@ class Api {
     return trackDetails;
   }
 
-  async GetUserEpisodes(): Promise<SpotifyApi.EpisodeObject[]> {
-    const url = "/me/episodes";
-    return this.GetPaginated<SpotifyApi.EpisodeObject>(url);
-  }
-
-  async GetUserShows(): Promise<SpotifyApi.ShowObject[]> {
-    const url = "/me/shows";
-    return this.GetPaginated<SpotifyApi.ShowObject>(url);
+  async GetTracks(trackIds: string[]): Promise<SpotifyApi.TrackObjectFull[]> {
+    const tracks = [];
+    while (trackIds.length > 0) {
+      const tracksToRequest = trackIds.splice(0, 50);
+      const tracksString = tracksToRequest.join(",");
+      const tracksResult: SpotifyApi.MultipleTracksResponse | undefined =
+        await this.Get(`/tracks?ids=${tracksString}`);
+      if (tracksResult) {
+        tracks.push(...tracksResult.tracks);
+      }
+    }
+    return tracks;
   }
 
   SetRefreshToken(refreshToken: string): void {

@@ -7,9 +7,9 @@ export function Tooltip(props: {
   const { text, children } = props;
 
   return (
-    <div className={"tooltip w-100"}>
-      <div>{children}</div>
-      <span className={"tooltiptext"}>
+    <div className={"tooltip w-100 h-100"}>
+      <div className="w-100 h-100">{children}</div>
+      <span className={"tooltip-text"}>
         {text.map(([title, text]) => (
           <p>
             <b>{title}: </b>

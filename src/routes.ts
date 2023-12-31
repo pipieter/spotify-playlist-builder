@@ -4,6 +4,7 @@ export enum routes {
   fromPlaylist = "/from-playlist",
   fromSong = "/from-song",
   fromGenre = "/from-genre",
+  fromArtist = "/from-artist",
   statistics = "/statistics",
-  episodes = "/episodes",
+  dataOverview = "/data-overview",
 }

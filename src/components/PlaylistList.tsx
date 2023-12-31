@@ -3,6 +3,8 @@ import Api from "../Api";
 import { PlaylistListItem } from "./ListItem";
 import { GenericList } from "./GenericList";
 
+// TODO move this and other lists to single file
+
 function playlistFilter(
   entry: SpotifyApi.PlaylistObjectSimplified,
   query: string

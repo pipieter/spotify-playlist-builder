@@ -16,9 +16,17 @@
         "name": "From Genre",
         "description": "Create a playlist based on a genre with the option to choose a playlist to base the recommendations on."
       },
+      "fromArtist": {
+        "name": "From Artist",
+        "description": "Create a playlist based on an artist."
+      },
       "statistics": {
         "name": "Statistics",
         "description": "View the genre distribution and music statistics of a playlist."
+      },
+      "dataOverview": {
+        "name": "Data Overview",
+        "description": "Summarize a user's complete Spotify listening history."
       }
     },
     "credits": {
@@ -57,6 +65,25 @@
       "title": "Create a playlist from a genre",
       "description1": "Select a genre in the first column for which you want to create a playlist for. The count in the genre is how many songs in all your playlists already have that genre. Additionally, you can set a playlist and the resulting tracks will be as similar to the playlist as possible.",
       "description2": "WARNING: The Spotify API is not very good for searching by genre, as most of the tracks are incompletely tagged. It's recommended to use other sources for properly searching by genre, such as <0>Every Noise at Once</0>. If a created playlist has no songs, it's highly likely the Spotify API could not find any songs matching the genre (even though an artist with the genre would exist)."
+    }
+  },
+  "FromArtist": {
+    "howToUse": {
+      "title": "Create a playlist from an artist",
+      "description": "Select a playlist and an artist in the second column. Based on the artist, a playlist of the top hundred most similar songs will be created."
+    }
+  },
+  "Statistics": {
+    "howToUse": {
+      "title": "Playlist statistics",
+      "description": "View the genres and statistics of a selected playlist, as provided by the Spotify API. The genres are the album and artist genres, and may not correctly reflect the song."
+    }
+  },
+  "DataOverview": {
+    "howToUse": {
+      "title": "Overview of past listening history",
+      "description1": "Enter the Spotify listening history data JSON files by pressing the '+' symbol in the left column. You can acquire this data by navigating to the <0>Spotify privacy settings page</0> and navigating to 'Extended streaming history'. Select the Extended streaming history checkbox and press Request Data. You should receive your data through mail within 30 days.",
+      "description2": "WARNING: The amount of times listened is not completely accurate. Pausing a song and then continuing to play it counts as a separate listen, making it an unreliable value."
     }
   }
 }

@@ -2,30 +2,16 @@ import React, { useEffect, useState } from "react";
 import { TabDiv } from "../components/TabDiv";
 import { PlaylistList } from "../components/PlaylistList";
 import Api, { TrackDetails } from "../Api";
-import { GenreChart } from "../components/GenreChart";
+import { GenreChart } from "../components/chart/GenreChart";
 import { SpotifyOptionType } from "../data/SpotifyOption";
-import { ListItem } from "../components/ListItem";
+import { StatisticsListItem } from "../components/ListItem";
 import { GenericList } from "../components/GenericList";
 import { capitalize } from "../util/util";
-import { OptionChart } from "../components/OptionChart";
-
-interface StatisticsListItemInterface {
-  track: SpotifyApi.TrackObjectFull;
-  subtitle: string;
-}
-
-function StatisticsListItem(track: StatisticsListItemInterface) {
-  return (
-    <ListItem
-      title={track.track.name}
-      subtitle={track.subtitle}
-      image={track.track.album.images[0].url}
-      selected={false}
-    />
-  );
-}
+import { OptionChart } from "../components/chart/OptionChart";
+import { useTranslation } from "react-i18next";
 
 export function Statistics() {
+  const { t } = useTranslation();
   const [selectedPlaylist, setSelectedPlaylist] = useState<
     SpotifyApi.PlaylistObjectSimplified | undefined
   >(undefined);
@@ -39,7 +25,10 @@ export function Statistics() {
     SpotifyOptionType | undefined
   >(undefined);
   const [relevantTracks, setRelevantTracks] = useState<
-    StatisticsListItemInterface[]
+    {
+      track: SpotifyApi.TrackObjectFull;
+      subtitle: string;
+    }[]
   >([]);
 
   useEffect(() => {
@@ -47,11 +36,16 @@ export function Statistics() {
       Api.GetPlaylistDetailedStatistics(selectedPlaylist.id).then(
         setPlaylistStatistics
       );
+    } else {
+      setPlaylistStatistics([]);
     }
   }, [selectedPlaylist]);
 
   useEffect(() => {
-    const tracks: StatisticsListItemInterface[] = [];
+    const tracks: {
+      track: SpotifyApi.TrackObjectFull;
+      subtitle: string;
+    }[] = [];
     if (selectedGenre) {
       for (const details of playlistStatistics) {
         const genres = details.artists.flatMap((artist) => artist.genres);
@@ -82,6 +76,18 @@ export function Statistics() {
           subtitle: `${capitalize(selectedField)} ${details.features[
             selectedField
           ].toFixed(2)}`,
+        });
+      }
+    } else {
+      for (const details of playlistStatistics) {
+        const genres = details.artists.flatMap((artist) => artist.genres);
+        const genresUnique = Array.from(new Set(genres)).map((genre) =>
+          capitalize(genre)
+        );
+        genresUnique.sort((a, b) => a.localeCompare(b));
+        tracks.push({
+          track: details.track,
+          subtitle: genresUnique.join(", "),
         });
       }
     }
@@ -138,12 +144,22 @@ export function Statistics() {
         </TabDiv>
       </div>
       <div className={"page-block w-33"}>
-        <GenericList<StatisticsListItemInterface>
-          itemFunction={StatisticsListItem}
-          entries={relevantTracks}
-          selectedEntry={undefined}
-          columnCount={1}
-        />
+        {selectedPlaylist === undefined ? (
+          <div className={"justify padding-16"}>
+            <h1 className={"font-large"}>{t("Statistics.howToUse.title")}</h1>
+            <p>{t("Statistics.howToUse.description")}</p>
+          </div>
+        ) : (
+          <GenericList<{
+            track: SpotifyApi.TrackObjectFull;
+            subtitle: string;
+          }>
+            itemFunction={StatisticsListItem}
+            entries={relevantTracks}
+            selectedEntry={undefined}
+            columnCount={1}
+          />
+        )}
       </div>
     </div>
   );

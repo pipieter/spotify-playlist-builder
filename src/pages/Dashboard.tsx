@@ -25,9 +25,19 @@ export function Dashboard() {
       route: routes.fromGenre,
     },
     {
+      name: t("Dashboard.links.fromArtist.name"),
+      description: t("Dashboard.links.fromArtist.description"),
+      route: routes.fromArtist,
+    },
+    {
       name: t("Dashboard.links.statistics.name"),
       description: t("Dashboard.links.statistics.description"),
       route: routes.statistics,
+    },
+    {
+      name: t("Dashboard.links.dataOverview.name"),
+      description: t("Dashboard.links.dataOverview.description"),
+      route: routes.dataOverview,
     },
   ];
 

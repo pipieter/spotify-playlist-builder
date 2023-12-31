@@ -3,33 +3,42 @@ export function capitalize(s: string): string {
 }
 
 export const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-export function notEmpty<TValue>(
-  value: TValue | null | undefined
-): value is TValue {
-  return !(value === null || value === undefined);
+export function arrayToMap<T>(
+  items: T[],
+  field: keyof T
+): Map<string | number, T> {
+  const result: Map<string | number, T> = new Map();
+  items.forEach((item) => {
+    const index = item[field] as string | number;
+    result.set(index, item);
+  });
+  return result;
 }
 
-export function count<T>(array: T[], value: T) {
-  return array.filter((entry) => entry === value).length;
+export function mapToArray<T>(map: Map<unknown, T>): T[] {
+  return Array.from(map.values());
 }
 
-export function shuffle<T>(array: T[]): T[] {
-  let currentIndex = array.length,
-    randomIndex;
+export function msToTime(duration: number) {
+  const seconds = Math.floor((duration / 1000) % 60);
+  const minutes = Math.floor((duration / (1000 * 60)) % 60);
+  const hours = Math.floor(duration / (1000 * 60 * 60));
+  const hours_str = hours < 10 ? "0" + hours : hours;
+  const minutes_str = minutes < 10 ? "0" + minutes : minutes;
+  const seconds_str = seconds < 10 ? "0" + seconds : seconds;
 
-  // While there remain elements to shuffle.
-  while (currentIndex > 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+  return hours_str + ":" + minutes_str + ":" + seconds_str;
+}
 
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
+export function formatDateString(date: Date): string {
+  function prependZero(value: number): string {
+    if (value < 10) return `0${value}`;
+    return `${value}`;
   }
 
-  return array;
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear() % 2000;
+
+  return `${prependZero(day)}/${prependZero(month)}/${prependZero(year)}`;
 }

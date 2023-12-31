@@ -1,3 +1,4 @@
+// TODO split this
 export type SpotifyOptionType =
   // Standard options
   | "acousticness"
@@ -37,7 +38,7 @@ export class SpotifyOptionSliderType {
 }
 
 export class SpotifyOptionsSelectType {
-  public options: { name: string; value: number }[] = [];
+  public options;
 
   constructor(options: { name: string; value: number }[]) {
     this.options = options;
@@ -47,7 +48,8 @@ export class SpotifyOptionsSelectType {
 export function spotifyDefaultOptions(
   trackStats: SpotifyApi.AudioFeaturesObject
 ): SpotifyOption[] {
-  return [
+  // TODO move descriptions to strings.json
+    return [
     {
       name: "acousticness",
       description:

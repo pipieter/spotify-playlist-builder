@@ -47,6 +47,20 @@ export function PlaylistListItem(props: {
   );
 }
 
+export function StatisticsListItem(track: {
+  track: SpotifyApi.TrackObjectFull;
+  subtitle: string;
+}) {
+  return (
+    <ListItem
+      title={track.track.name}
+      subtitle={track.subtitle}
+      image={track.track.album.images[0].url}
+      selected={false}
+    />
+  );
+}
+
 export function ListItem(props: {
   title: string;
   subtitle: string;

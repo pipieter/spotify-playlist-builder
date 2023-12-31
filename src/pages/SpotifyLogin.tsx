@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Api from "../Api";
 import { Navigate } from "react-router-dom";
-import { routes } from "../routes";
 
 const SpotifyLogin = () => {
   const [accessToken, setAccessToken] = useState("");

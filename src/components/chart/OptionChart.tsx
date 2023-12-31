@@ -1,8 +1,8 @@
-import { TrackDetails } from "../Api";
-import { SpotifyOptionType } from "../data/SpotifyOption";
+import { TrackDetails } from "../../Api";
+import { SpotifyOptionType } from "../../data/SpotifyOption";
 import "./OptionChart.css";
-import { capitalize } from "../util/util";
-import { Tooltip } from "./Tooltip";
+import { capitalize } from "../../util/util";
+import { Tooltip } from "../Tooltip";
 
 // TODO rename field to option
 

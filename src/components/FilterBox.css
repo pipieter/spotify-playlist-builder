@@ -1,0 +1,32 @@
+.input-div {
+    display: flex;
+    margin: 8px;
+    padding: 8px;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.input-refresh {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    font-size: var(--font-size-large);
+    border-radius: 999px;
+    margin: 0 0 0 8px;
+    background: var(--light-primary);
+    border: none;
+    align-items: normal;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.input-refresh:hover {
+    background: var(--light-secondary);
+}
+
+.input-refresh:active {
+    background: var(--light-tertiary);
+}

@@ -1,13 +1,14 @@
+import { FilterBox } from "./FilterBox";
 import "./GenericList.css";
 import { ReactNode, useEffect, useState } from "react";
 
 export function GenericList<T>(props: {
   itemFunction: (entry: T, selectedEntry: T | undefined) => ReactNode;
-  filterFunction?: (entry: T, query: string) => boolean;
   entries: T[];
-  selectedEntry: T | undefined;
+  selectedEntry?: T | undefined;
+  columnCount?: number;
   onClick?: (entry: T | undefined) => void;
-  columnCount: number;
+  filterFunction?: (entry: T, query: string) => boolean;
   refreshFunction?: () => void;
 }) {
   const {
@@ -35,19 +36,10 @@ export function GenericList<T>(props: {
   return (
     <div className="list-list">
       {filterFunction && (
-        <div className="list-input-div">
-          <input
-            className="input-text"
-            type={"text"}
-            placeholder={"Search..."}
-            onChange={(e) => setFilter(e.target.value)}
-          />
-          {refreshFunction && (
-            <p className={"list-input-refresh"} onClick={refreshFunction}>
-              ⟳
-            </p>
-          )}
-        </div>
+        <FilterBox
+          filterFunction={setFilter}
+          refreshFunction={refreshFunction}
+        />
       )}
       <div
         className={"list-item-holder"}

@@ -1,0 +1,64 @@
+.file-item {
+  display: flex;
+
+  padding: 0;
+  margin: 0;
+
+  border-radius: var(--small-border-radius);
+  background: transparent;
+}
+
+.file-item-text {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.file-item-delete {
+  width: 16px;
+  height: 16px;
+  margin: 4px;
+  color: var(--dark-primary);
+  display: flex;
+  background: var(--light-primary);
+  cursor: pointer;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+}
+
+.file-item-delete:hover {
+  background: var(--light-secondary);
+}
+
+.data-overview-input {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.data-overview-input input {
+  display: none;
+}
+
+
+.date-overview-page-controls {
+    align-items: center;
+}
+
+.date-overview-page-controls p {
+  display: block;
+  width: 64px;
+  text-align: center;
+  margin: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 16;
+}

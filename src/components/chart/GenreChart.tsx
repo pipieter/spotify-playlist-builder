@@ -1,8 +1,8 @@
-import { TrackDetails } from "../Api";
+import { TrackDetails } from "../../Api";
 import React from "react";
 import "./GenreChart.css";
-import { capitalize } from "../util/util";
-import { Tooltip } from "./Tooltip";
+import { capitalize } from "../../util/util";
+import { Tooltip } from "../Tooltip";
 
 export function GenreChart(props: {
   tracks: TrackDetails[];
