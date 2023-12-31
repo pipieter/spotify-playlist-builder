@@ -49,7 +49,7 @@ export function spotifyDefaultOptions(
   trackStats: SpotifyApi.AudioFeaturesObject
 ): SpotifyOption[] {
   // TODO move descriptions to strings.json
-    return [
+  return [
     {
       name: "acousticness",
       description:

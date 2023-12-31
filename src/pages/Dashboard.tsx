@@ -61,6 +61,7 @@ export function Dashboard() {
           <img src={"logo256.png"} alt={""} />
           <h1>{t("Dashboard.title")}</h1>
         </div>
+        {/* Links */}
         <div className={"padding-16"}>
           <div>
             <h2>{t("Dashboard.links.title")}</h2>
@@ -82,6 +83,7 @@ export function Dashboard() {
               </tbody>
             </table>
           </div>
+          {/* Credits */}
           <div className={"block"}>
             <h2>{t("Dashboard.credits.title")}</h2>
             <table>
@@ -102,6 +104,7 @@ export function Dashboard() {
             </table>
           </div>
         </div>
+        {/* GitHub URL */}
         <div className={"flex-center github-link"}>
           {Config.GetGitHubUrl() && (
             <Link to={Config.GetGitHubUrl()} className={"text-color-light"}>

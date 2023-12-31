@@ -7,7 +7,7 @@ export function SelectElement<T>(props: {
 }) {
   return (
     <select
-    className="button-dark"
+      className="button-dark"
       value={props.value as string}
       onChange={(e) => props.onChange(e.target.value as T)}
     >
